@@ -1,46 +1,32 @@
 from funcoes import *
 
-frota = {
-    "porta-aviões": [],
-    "navio-tanque": [],
-    "contratorpedeiro": [],
-    "submarino": [],
-}
+frota = {}
+nomes = ["porta-aviões", "navio-tanque", "contratorpedeiro", "submarino"]
+quantidades = [1, 2, 3, 4]
+tamanhos = [4, 3, 2, 1]
 
-navios = [
-    ["porta-aviões", 4, 1],
-    ["navio-tanque", 3, 2],
-    ["contratorpedeiro", 2, 3],
-    ["submarino", 1, 4],
-]
-
-for navio in navios:
-    nome = navio[0]
-    tamanho = navio[1]
-    quantidade = navio[2]
-
-    for i in range(quantidade):
-        valida = False
-        while not valida:
+for i in range(len(nomes)):
+    nome = nomes[i]
+    tamanho = tamanhos[i]
+    for k in range(quantidades[i]):
+        valido = False
+        while not valido:
             print(f"Insira as informações referentes ao navio {nome} que possui tamanho {tamanho}")
             linha = int(input("Linha: "))
             coluna = int(input("Coluna: "))
-
-            if nome == "submarino":
+            if tamanho == 1:
                 orientacao = "horizontal"
             else:
-                opcao = int(input("[1] Vertical [2] Horizontal >"))
-                if opcao == 1:
+                escolha = int(input("Orientação: [1] Vertical [2] Horizontal "))
+                if escolha == 1:
                     orientacao = "vertical"
                 else:
                     orientacao = "horizontal"
-
             if posicao_valida(frota, linha, coluna, orientacao, tamanho):
                 frota = preenche_frota(frota, nome, linha, coluna, orientacao, tamanho)
-                valida = True
+                valido = True
             else:
                 print("Esta posição não está válida!")
-
 
 frota_oponente = {
     'porta-aviões': [
@@ -66,29 +52,33 @@ frota_oponente = {
 tabuleiro_oponente = posiciona_frota(frota_oponente)
 tabuleiro_jogador = posiciona_frota(frota)
 
+total_navios = 0
+for nome in frota_oponente:
+    total_navios += len(frota_oponente[nome])
+
 jogando = True
 while jogando:
     print(monta_tabuleiros(tabuleiro_jogador, tabuleiro_oponente))
 
-    posicao_nova = False
-    while not posicao_nova:
-        linha = int(input('Jogador, qual linha deseja atacar? '))
+    repetida = True
+    while repetida:
+        linha = int(input("Jogador, qual linha deseja atacar? "))
         while linha < 0 or linha > 9:
-            print('Linha inválida!')
-            linha = int(input('Jogador, qual linha deseja atacar? '))
+            print("Linha inválida!")
+            linha = int(input("Jogador, qual linha deseja atacar? "))
 
-        coluna = int(input('Jogador, qual coluna deseja atacar? '))
+        coluna = int(input("Jogador, qual coluna deseja atacar? "))
         while coluna < 0 or coluna > 9:
-            print('Coluna inválida!')
-            coluna = int(input('Jogador, qual coluna deseja atacar? '))
+            print("Coluna inválida!")
+            coluna = int(input("Jogador, qual coluna deseja atacar? "))
 
-        if tabuleiro_oponente[linha][coluna] in ('X', '-'):
-            print(f'A posição linha {linha} e coluna {coluna} já foi informada anteriormente!')
+        if tabuleiro_oponente[linha][coluna] == 'X' or tabuleiro_oponente[linha][coluna] == '-':
+            print(f"A posição linha {linha} e coluna {coluna} já foi informada anteriormente!")
         else:
-            posicao_nova = True
+            repetida = False
 
     tabuleiro_oponente = faz_jogada(tabuleiro_oponente, linha, coluna)
 
-    if afundados(frota_oponente, tabuleiro_oponente) == 10:
-        print('Parabéns! Você derrubou todos os navios do seu oponente!')
+    if afundados(frota_oponente, tabuleiro_oponente) == total_navios:
+        print("Parabéns! Você derrubou todos os navios do seu oponente!")
         jogando = False
