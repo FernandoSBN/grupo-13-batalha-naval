@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 def posiciona_frota(frota):
     tabuleiro = []
     for i in range(10):
@@ -11,3 +12,14 @@ def posiciona_frota(frota):
             coluna = posicao[1]
             tabuleiro[linha][coluna] = navio 
     return tabuleiro
+=======
+def define_posicoes(linha, coluna, orientacao, tamanho):
+    posicoes = []
+    if orientacao == 'horizontal':
+        for i in range(tamanho):
+            posicoes.append([linha, coluna + i])
+    elif orientacao == 'vertical':
+        for i in range(tamanho):
+            posicoes.append([linha + i, coluna])
+    return posicoes
+>>>>>>> 29ef39ef28616550e951a2928389000914184898
