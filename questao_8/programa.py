@@ -1,12 +1,12 @@
 from funcoes import *
 
+
 frota = {
     "porta-aviões": [],
     "navio-tanque": [],
     "contratorpedeiro": [],
     "submarino": [],
 }
-
 
 navios = [
     ["porta-aviões", 4, 1],
@@ -28,7 +28,7 @@ for navio in navios:
             coluna = int(input("Coluna: "))
 
             if nome == "submarino":
-                orientacao = "horizontal"
+                orientacao = "horizontal"  
             else:
                 opcao = int(input("[1] Vertical [2] Horizontal >"))
                 if opcao == 1:
@@ -41,6 +41,7 @@ for navio in navios:
                 valida = True
             else:
                 print("Esta posição não está válida!")
+
 
 frota_oponente = {
     'porta-aviões': [
@@ -63,29 +64,42 @@ frota_oponente = {
     ]
 }
 
-tabuleiro_oponente = posiciona_frota(frota_oponente)
 tabuleiro_jogador = posiciona_frota(frota)
+tabuleiro_oponente = posiciona_frota(frota_oponente)
+
+
+total_navios = 0
+for tipo in frota_oponente:
+    total_navios += len(frota_oponente[tipo])
+
+ja_atacadas = []  
+
 
 jogando = True
 while jogando:
     print(monta_tabuleiros(tabuleiro_jogador, tabuleiro_oponente))
 
-    linha = int(input("Jogador, qual linha deseja atacar? "))
-    while linha < 0 or linha > 9:
-        print("Linha inválida!")
+    posicao_nova = False
+    while not posicao_nova:
         linha = int(input("Jogador, qual linha deseja atacar? "))
+        while linha < 0 or linha > 9:
+            print("Linha inválida!")
+            linha = int(input("Jogador, qual linha deseja atacar? "))
 
-    coluna = int(input("Jogador, qual coluna deseja atacar? "))
-    while coluna < 0 or coluna > 9:
-        print("Coluna inválida!")
+        
         coluna = int(input("Jogador, qual coluna deseja atacar? "))
+        while coluna < 0 or coluna > 9:
+            print("Coluna inválida!")
+            coluna = int(input("Jogador, qual coluna deseja atacar? "))
 
-    if tabuleiro_oponente[linha][coluna] in ("X", "-"):
-        print(f"A posição linha {linha} e coluna {coluna} já foi informada anteriormente!")
-        continue
+        if [linha, coluna] in ja_atacadas:
+            print(f"A posição linha {linha} e coluna {coluna} já foi informada anteriormente!")
+        else:
+            posicao_nova = True
 
+    ja_atacadas.append([linha, coluna])
     tabuleiro_oponente = faz_jogada(tabuleiro_oponente, linha, coluna)
 
-    if afundados(frota_oponente, tabuleiro_oponente) == 10:
+    if afundados(frota_oponente, tabuleiro_oponente) == total_navios:
         print("Parabéns! Você derrubou todos os navios do seu oponente!")
         jogando = False

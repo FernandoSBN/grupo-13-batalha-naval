@@ -5,6 +5,7 @@ def posiciona_frota(frota):
         for j in range(10):
             linha.append(0)
         grid.append(linha)
+
     for tipo in frota:
         for navio in frota[tipo]:
             for posicao in navio:
@@ -31,7 +32,7 @@ def define_posicoes(linha, coluna, orientacao, tamanho):
     for i in range(tamanho):
         if orientacao == 'vertical':
             posicoes.append([linha + i, coluna])
-        else:  # horizontal
+        else:  
             posicoes.append([linha, coluna + i])
     return posicoes
 
@@ -70,7 +71,7 @@ def faz_jogada(tabuleiro, linha, coluna):
 def monta_tabuleiros(tabuleiro_jogador, tabuleiro_oponente):
     texto = ''
     texto += '   0  1  2  3  4  5  6  7  8  9         0  1  2  3  4  5  6  7  8  9\n'
-    texto += '___________________________________      ___________________________________\n'
+    texto += '_______________________________       _______________________________\n'
 
     for linha in range(len(tabuleiro_jogador)):
         jogador_info = '  '.join([str(item) for item in tabuleiro_jogador[linha]])
