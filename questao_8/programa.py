@@ -1,31 +1,25 @@
 from funcoes import *
 
-frota = {}
-navios = [
-    ('porta-aviões', 4, 1),
-    ('navio-tanque', 3, 2),
-    ('contratorpedeiro', 2, 3),
-    ('submarino', 1, 4),
-]
-
-for nome, tamanho, quantidade in navios:
-    for i in range(quantidade):
-        print(f'Insira as informações referentes ao navio {nome} que possui tamanho {tamanho}')
-        valido = False
-        while not valido:
-            linha = int(input('Linha: '))
-            coluna = int(input('Coluna: '))
-            orientacao = 'vertical'
-            if tamanho > 1:
-                op = int(input('[1] Vertical [2] Horizontal > '))
-                if op == 2:
-                    orientacao = 'horizontal'
-
-            if posicao_valida(frota, linha, coluna, orientacao, tamanho):
-                frota = preenche_frota(frota, nome, linha, coluna, orientacao, tamanho)
-                valido = True
-            else:
-                print('Esta posição não está válida!')
+frota = {
+    'porta-aviões': [
+        [[0, 0], [0, 1], [0, 2], [0, 3]]
+    ],
+    'navio-tanque': [
+        [[2, 0], [2, 1], [2, 2]],
+        [[4, 0], [4, 1], [4, 2]]
+    ],
+    'contratorpedeiro': [
+        [[6, 0], [6, 1]],
+        [[6, 3], [6, 4]],
+        [[8, 0], [8, 1]]
+    ],
+    'submarino': [
+        [[8, 3]],
+        [[8, 5]],
+        [[8, 7]],
+        [[8, 9]]
+    ]
+}
 
 frota_oponente = {
     'porta-aviões': [
