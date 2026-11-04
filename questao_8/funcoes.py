@@ -1,17 +1,17 @@
 def posiciona_frota(frota):
-    grid = []
+    grade = []
     for i in range(10):
         linha = []
         for j in range(10):
             linha.append(0)
-        grid.append(linha)
+        grade.append(linha)
 
     for tipo in frota:
         for navio in frota[tipo]:
             for posicao in navio:
-                grid[posicao[0]][posicao[1]] = 1
+                grade[posicao[0]][posicao[1]] = 1
 
-    return grid
+    return grade
 
 
 def afundados(frota, tabuleiro):

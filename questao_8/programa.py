@@ -63,18 +63,12 @@ frota_oponente = {
         [[7, 6]]
     ]
 }
-
 tabuleiro_jogador = posiciona_frota(frota)
 tabuleiro_oponente = posiciona_frota(frota_oponente)
-
-
 total_navios = 0
 for tipo in frota_oponente:
     total_navios += len(frota_oponente[tipo])
-
 ja_atacadas = []  
-
-
 jogando = True
 while jogando:
     print(monta_tabuleiros(tabuleiro_jogador, tabuleiro_oponente))
